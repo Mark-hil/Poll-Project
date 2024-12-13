@@ -29,9 +29,10 @@ Before you begin, ensure you have the following installed on your system:
 Create a .env file in the root directory and add the following:
 
 3. **Build and Run with Docker Compose**
-  ``bash
-docker-compose up --build
-4. **Run Migrations**
+  ```bash
+   docker-compose up --build
+
+5. **Run Migrations**
   ``bash
     docker-compose exec web python manage.py migrate
 **Running Tests**
