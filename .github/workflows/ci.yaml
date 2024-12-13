@@ -19,10 +19,18 @@ jobs:
           python-version: '3.8'  # Adjust the version as needed
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m venv .venv 
+          source .venv/bin/activate 
+          pip install -r requirements.txt
 
       - name: Run tests
-        run: python manage.py test
+        run: |
+          source .venv/bin/activate
+          python manage.py test
+          coverage run manage.py test
+          coverage report 
+          
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
