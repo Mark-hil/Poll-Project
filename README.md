@@ -32,15 +32,19 @@ Create a .env file in the root directory and add the following:
   ```bash
    docker-compose up --build
 
-5. **Run Migrations**
-  ``bash
-    docker-compose exec web python manage.py migrate
-**Running Tests**
+
+3. Build and Run with Docker Compose
+sh
+docker-compose up --build
+4. Run Migrations
+sh
+docker-compose exec web python manage.py migrate
+Running Tests
 To run tests, use the following command:
 
-  ``bash
+sh
 docker-compose exec web python manage.py test
-**Deployment**
+Deployment
 This project uses GitHub Actions for CI/CD. On every push to the main branch, the workflow will:
 
 Build the Docker image.
