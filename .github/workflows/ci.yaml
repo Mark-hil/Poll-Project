@@ -44,12 +44,12 @@ jobs:
           until nc -zv localhost 5432; do echo "Waiting for database connection..."; sleep 1; done
 
       - name: Run tests
-        env:
-          DB_NAME: Poll_App
-          DB_USER: admin
-          DB_PASSWORD: admin123
-          DB_HOST: localhost
-          DB_PORT: 5432
+        # env:
+        #   DB_NAME: Poll_App
+        #   DB_USER: admin
+        #   DB_PASSWORD: admin123
+        #   DB_HOST: localhost
+        #   DB_PORT: 5432
         run: |
           source .venv/bin/activate
           python manage.py test
