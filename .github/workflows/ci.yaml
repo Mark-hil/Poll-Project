@@ -9,6 +9,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      db:
+        image: postgres:13
+        env:
+          POSTGRES_DB: Poll_App
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: admin123
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U admin -d Poll_App"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -16,21 +31,30 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.8'  # Adjust the version as needed
+          python-version: '3.8'
 
       - name: Install dependencies
         run: |
-          python -m venv .venv 
-          source .venv/bin/activate 
+          python -m venv .venv
+          source .venv/bin/activate
           pip install -r requirements.txt
 
+      - name: Wait for PostgreSQL
+        run: |
+          until nc -zv localhost 5432; do echo "Waiting for database connection..."; sleep 1; done
+
       - name: Run tests
+        env:
+          DB_NAME: Poll_App
+          DB_USER: admin
+          DB_PASSWORD: admin123
+          DB_HOST: localhost
+          DB_PORT: 5432
         run: |
           source .venv/bin/activate
           python manage.py test
           coverage run manage.py test
-          coverage report 
-          
+          coverage report
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
