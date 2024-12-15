@@ -1,0 +1,30 @@
+{% extends "poll/base.html" %}
+
+{% block main %}
+  <h1>All Poll Results</h1>
+  {% if results_with_graphs %}
+    <div class="container">
+      <div class="row">
+        {% for poll, graph in results_with_graphs %}
+          <div class="col-sm-12 col-md-6 mb-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h5 class="panel-title">{{ poll.question }}</h5>
+              </div>
+              <div class="panel-body">
+                <p><strong>Option 1:</strong> {{ poll.option_one }} - {{ poll.option_one_count }} votes</p>
+                <p><strong>Option 2:</strong> {{ poll.option_two }} - {{ poll.option_two_count }} votes</p>
+                <p><strong>Option 3:</strong> {{ poll.option_three }} - {{ poll.option_three_count }} votes</p>
+                <p><strong>Total Votes:</strong> {{ poll.total_votes }}</p>
+                <h6>Graphical Representation</h6>
+                <img src="data:image/png;base64,{{ graph }}" class="img-responsive" alt="Poll Results Graph">
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <p>No polls available.</p>
+  {% endif %}
+{% endblock %}

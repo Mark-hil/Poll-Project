@@ -24,5 +24,9 @@ urlpatterns = [
     path('create/', poll_views.create, name='create'),
     path('vote/<poll_id>/', poll_views.vote, name='vote'),
     path('results/<poll_id>/', poll_views.results, name='results'),
+    path('poll/<int:poll_id>/delete/', poll_views.delete_poll, name='delete_poll'),
+    path('all_results/', poll_views.all_results, name='all_results'),
+    path('login/', poll_views.user_login, name='login'), 
+    path('logout/', poll_views.user_logout, name='logout'),
     # path('', poll_views.home, name='home'),
 ]

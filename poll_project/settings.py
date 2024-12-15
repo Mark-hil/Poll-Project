@@ -56,10 +56,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'poll_project.urls'
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'poll_app', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,3 +131,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_URL = 'login'
