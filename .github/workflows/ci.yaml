@@ -24,6 +24,9 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
+    env:
+      DATABASE_URL: postgres://admin:admin123@localhost:5432/Poll_App
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -43,17 +46,15 @@ jobs:
         run: |
           until nc -zv localhost 5432; do echo "Waiting for database connection..."; sleep 1; done
 
+      - name: Run migrations
+        run: |
+          source .venv/bin/activate
+          python manage.py migrate
+
       - name: Run tests
-        # env:
-        #   DB_NAME: Poll_App
-        #   DB_USER: admin
-        #   DB_PASSWORD: admin123
-        #   DB_HOST: localhost
-        #   DB_PORT: 5432
         run: |
           source .venv/bin/activate
           python manage.py test
-          
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -83,5 +84,3 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/poll_app:${{ env.VERSION_TAG }}
-
-# test workflow
